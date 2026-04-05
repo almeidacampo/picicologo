@@ -5,10 +5,7 @@ module.exports = async (req, res) => {
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 
-  if (req.method === 'OPTIONS') {
-    res.status(200).end();
-    return;
-  }
+  if (req.method === 'OPTIONS') { res.status(200).end(); return; }
 
   const key = process.env.ANTHROPIC_KEY;
   const body = JSON.stringify({
@@ -35,15 +32,22 @@ module.exports = async (req, res) => {
     apiRes.on('data', (chunk) => { data += chunk; });
     apiRes.on('end', () => {
       try {
-        res.status(200).json(JSON.parse(data));
+        const parsed = JSON.parse(data);
+        // Se vier erro da Anthropic, transforma em resposta válida
+        if (parsed.error) {
+          return res.status(200).json({
+            content: [{ type: 'text', text: 'Erro API: ' + parsed.error.message }]
+          });
+        }
+        res.status(200).json(parsed);
       } catch(e) {
-        res.status(500).json({ error: 'Parse error' });
+        res.status(200).json({ content: [{ type: 'text', text: data }] });
       }
     });
   });
 
   apiReq.on('error', (e) => {
-    res.status(500).json({ error: e.message });
+    res.status(200).json({ content: [{ type: 'text', text: 'Erro: ' + e.message }] });
   });
 
   apiReq.write(body);
