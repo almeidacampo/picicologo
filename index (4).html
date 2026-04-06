@@ -1,0 +1,1080 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vitória</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --sage: #7a9e87;
+    --sage-light: #a8c4b0;
+    --sage-dark: #4e7260;
+    --cream: #f5f0e8;
+    --cream-dark: #ede5d5;
+    --warm: #c9956a;
+    --text: #2c3a32;
+    --text-muted: #6b7d71;
+    --shadow: rgba(44,58,50,0.12);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ── LOGIN ── */
+  #login-screen {
+    position: fixed; inset: 0; z-index: 9999;
+    display: flex; align-items: center; justify-content: center;
+    background: #0a1a12;
+    overflow: hidden;
+  }
+
+  .login-bg {
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 30% 40%, rgba(78,114,96,0.35) 0%, transparent 55%),
+                radial-gradient(ellipse at 75% 70%, rgba(201,149,106,0.18) 0%, transparent 50%),
+                radial-gradient(ellipse at 60% 10%, rgba(122,158,135,0.2) 0%, transparent 45%);
+  }
+
+  /* partículas brilhantes */
+  .particles { position:absolute; inset:0; pointer-events:none; overflow:hidden; }
+  .particle {
+    position:absolute; border-radius:50%;
+    background: radial-gradient(circle, #fff 0%, rgba(255,255,255,0) 70%);
+    animation: floatParticle linear infinite;
+    opacity: 0;
+  }
+
+  @keyframes floatParticle {
+    0%   { opacity:0; transform: translateY(0) scale(0.5); }
+    15%  { opacity:1; }
+    85%  { opacity:0.6; }
+    100% { opacity:0; transform: translateY(-100vh) scale(1.2); }
+  }
+
+  .login-card {
+    position: relative; z-index: 2;
+    width: 100%; max-width: 400px;
+    padding: 0 24px;
+    display: flex; flex-direction: column; align-items: center;
+    animation: fadeUp 0.9s ease both;
+  }
+
+  /* TÍTULO BRILHANTE */
+  .login-brand {
+    text-align: center;
+    margin-bottom: 48px;
+  }
+
+  .login-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(36px, 8vw, 56px);
+    font-weight: 600;
+    letter-spacing: -0.5px;
+    line-height: 1.1;
+    background: linear-gradient(135deg, #a8dfc0 0%, #ffffff 35%, #f5d7a0 65%, #c9956a 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    filter: drop-shadow(0 0 30px rgba(168,223,192,0.5)) drop-shadow(0 0 60px rgba(255,255,255,0.2));
+    animation: shimmer 4s ease-in-out infinite;
+  }
+
+  @keyframes shimmer {
+    0%,100% { filter: drop-shadow(0 0 20px rgba(168,223,192,0.4)) drop-shadow(0 0 40px rgba(255,255,255,0.15)); }
+    50%      { filter: drop-shadow(0 0 40px rgba(168,223,192,0.7)) drop-shadow(0 0 80px rgba(255,255,255,0.3)) drop-shadow(0 0 120px rgba(201,149,106,0.3)); }
+  }
+
+  .login-app-name {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(38px, 10vw, 58px);
+    font-weight: 600;
+    font-style: italic;
+    letter-spacing: 1px;
+    line-height: 1.1;
+    background: linear-gradient(135deg, #ffffff 0%, #d4f0e0 30%, #f5d7a0 65%, #ffffff 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    filter: drop-shadow(0 0 20px rgba(168,223,192,0.6)) drop-shadow(0 0 50px rgba(255,255,255,0.2));
+    animation: shimmer 3.5s ease-in-out infinite;
+    text-align: center;
+  }
+
+  /* FORMULÁRIO */
+  .login-form {
+    width: 100%;
+    background: rgba(255,255,255,0.06);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 24px;
+    padding: 36px 32px;
+    box-shadow: 0 24px 64px rgba(0,0,0,0.4);
+  }
+
+  .login-field { margin-bottom: 20px; }
+
+  .login-field label {
+    display: block;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.5);
+    margin-bottom: 8px;
+  }
+
+  .login-field input {
+    width: 100%;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 12px;
+    padding: 14px 18px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    color: white;
+    outline: none;
+    transition: border-color 0.25s, background 0.25s, box-shadow 0.25s;
+  }
+
+  .login-field input::placeholder { color: rgba(255,255,255,0.3); }
+
+  .login-field input:focus {
+    border-color: rgba(168,223,192,0.6);
+    background: rgba(255,255,255,0.12);
+    box-shadow: 0 0 0 3px rgba(122,158,135,0.15);
+  }
+
+  .login-error {
+    display: none;
+    background: rgba(220,80,80,0.15);
+    border: 1px solid rgba(220,80,80,0.3);
+    border-radius: 10px;
+    padding: 10px 14px;
+    font-size: 13px;
+    color: #ff8888;
+    margin-bottom: 16px;
+    text-align: center;
+  }
+
+  .login-btn {
+    width: 100%;
+    background: linear-gradient(135deg, var(--sage) 0%, var(--sage-dark) 100%);
+    border: none;
+    border-radius: 14px;
+    padding: 16px;
+    font-family: 'Playfair Display', serif;
+    font-size: 16px;
+    font-weight: 600;
+    color: white;
+    cursor: pointer;
+    transition: all 0.25s;
+    box-shadow: 0 4px 24px rgba(78,114,96,0.4);
+    margin-top: 4px;
+    letter-spacing: 0.3px;
+  }
+
+  .login-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 32px rgba(78,114,96,0.55);
+  }
+
+  .login-btn:active { transform: translateY(0); }
+
+  .login-hint {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 12px;
+    color: rgba(255,255,255,0.3);
+  }
+
+  /* ── LANDING ── */
+  #landing { min-height: 100vh; display: flex; flex-direction: column; }
+
+  .hero { flex: 1; display: grid; grid-template-columns: 1fr 1fr; min-height: 100vh; }
+
+  .hero-left {
+    background: var(--sage-dark);
+    display: flex; flex-direction: column; justify-content: center;
+    padding: 64px 56px; position: relative; overflow: hidden;
+  }
+  .hero-left::before {
+    content:''; position:absolute; top:-100px; right:-100px;
+    width:400px; height:400px;
+    background: radial-gradient(circle, rgba(122,158,135,0.3) 0%, transparent 70%);
+    border-radius:50%;
+  }
+  .hero-left::after {
+    content:''; position:absolute; bottom:-80px; left:-80px;
+    width:300px; height:300px;
+    background: radial-gradient(circle, rgba(201,149,106,0.2) 0%, transparent 70%);
+    border-radius:50%;
+  }
+
+  .logo { display:flex; align-items:center; margin-bottom:64px; position:relative; z-index:1; }
+
+  .doctor-logo {
+    width:64px; height:64px; background:var(--sage); border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    box-shadow: 0 4px 20px rgba(78,114,96,0.45);
+    animation: glowPulse 3s infinite;
+  }
+
+  .hero-tag {
+    display:inline-block; background:rgba(201,149,106,0.25); color:var(--warm);
+    border:1px solid rgba(201,149,106,0.4); padding:6px 14px; border-radius:20px;
+    font-size:12px; font-weight:500; letter-spacing:1px; text-transform:uppercase;
+    margin-bottom:24px; position:relative; z-index:1; animation:fadeUp 0.8s ease both;
+  }
+
+  .hero-tag { display:none; }
+
+  .hero-emblem {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(42px, 6vw, 72px);
+    line-height: 1.1;
+    margin-bottom: 28px;
+    position: relative; z-index: 1;
+    animation: fadeUp 0.8s 0.1s ease both;
+    color: white;
+    letter-spacing: -1px;
+  }
+
+  .hero-emblem em {
+    font-style: italic;
+    background: linear-gradient(135deg, #f5d7a0 0%, #c9956a 60%, #f5d7a0 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    filter: drop-shadow(0 0 18px rgba(201,149,106,0.6));
+    animation: goldShimmer 3s ease-in-out infinite;
+  }
+
+  @keyframes goldShimmer {
+    0%,100% { filter: drop-shadow(0 0 12px rgba(201,149,106,0.5)); }
+    50%      { filter: drop-shadow(0 0 32px rgba(201,149,106,0.9)) drop-shadow(0 0 60px rgba(245,215,160,0.4)); }
+  }
+
+  .hero-sub {
+    color:rgba(245,240,232,0.72); font-size:16px; line-height:1.7;
+    max-width:380px; margin-bottom:48px; font-weight:300;
+    position:relative; z-index:1; animation:fadeUp 0.8s 0.2s ease both;
+  }
+
+  .hero-cta { display:flex; gap:14px; flex-wrap:wrap; position:relative; z-index:1; animation:fadeUp 0.8s 0.3s ease both; }
+
+  .btn-primary {
+    background:var(--warm); color:white; border:none; padding:16px 32px; border-radius:50px;
+    font-family:'DM Sans',sans-serif; font-size:15px; font-weight:500; cursor:pointer;
+    transition:all 0.25s; box-shadow:0 4px 20px rgba(201,149,106,0.4);
+  }
+  .btn-primary:hover { transform:translateY(-2px); box-shadow:0 8px 30px rgba(201,149,106,0.5); }
+
+  .btn-ghost {
+    background:transparent; color:var(--cream); border:1px solid rgba(245,240,232,0.35);
+    padding:16px 32px; border-radius:50px; font-family:'DM Sans',sans-serif;
+    font-size:15px; cursor:pointer; transition:all 0.25s;
+  }
+  .btn-ghost:hover { background:rgba(245,240,232,0.1); border-color:rgba(245,240,232,0.6); }
+
+  .hero-right {
+    background:var(--cream-dark); display:flex; flex-direction:column;
+    justify-content:center; padding:64px 56px; position:relative; overflow:hidden;
+  }
+  .hero-right::before {
+    content:''; position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);
+    width:500px; height:500px;
+    background:radial-gradient(circle, rgba(122,158,135,0.12) 0%, transparent 70%);
+    border-radius:50%; pointer-events:none;
+  }
+
+  .features-label {
+    font-size:11px; font-weight:500; letter-spacing:2px; text-transform:uppercase;
+    color:var(--text-muted); margin-bottom:32px; animation:fadeUp 0.8s 0.2s ease both;
+  }
+
+  .feature-card {
+    background:white; border-radius:16px; padding:24px; margin-bottom:16px;
+    display:flex; align-items:flex-start; gap:16px;
+    box-shadow:0 2px 16px var(--shadow); position:relative; z-index:1;
+    transition:transform 0.2s, box-shadow 0.2s;
+  }
+  .feature-card:nth-child(2){animation:fadeUp 0.8s 0.25s ease both;}
+  .feature-card:nth-child(3){animation:fadeUp 0.8s 0.35s ease both;}
+  .feature-card:nth-child(4){animation:fadeUp 0.8s 0.45s ease both;}
+  .feature-card:hover { transform:translateY(-3px); box-shadow:0 8px 32px var(--shadow); }
+
+  .feature-icon { width:44px; height:44px; border-radius:12px; display:flex; align-items:center; justify-content:center; font-size:20px; flex-shrink:0; }
+  .fi-green { background:rgba(122,158,135,0.15); }
+  .fi-warm  { background:rgba(201,149,106,0.15); }
+  .fi-blue  { background:rgba(100,149,200,0.15); }
+
+  .feature-info h4 { font-size:15px; font-weight:500; margin-bottom:4px; }
+  .feature-info p  { font-size:13px; color:var(--text-muted); line-height:1.5; font-weight:300; }
+
+  /* ── CHAT ── */
+  #chat-screen { display:none; flex-direction:column; height:100vh; width:100vw; background:var(--cream); position:fixed; inset:0; }
+
+  .chat-header {
+    background:var(--sage-dark); padding:14px 20px;
+    display:flex; align-items:center; gap:12px;
+    box-shadow:0 2px 16px var(--shadow);
+  }
+
+  .back-btn {
+    background:rgba(255,255,255,0.15); border:none; color:white;
+    width:36px; height:36px; border-radius:50%; font-size:18px; cursor:pointer;
+    display:flex; align-items:center; justify-content:center;
+    transition:background 0.2s; flex-shrink:0;
+  }
+  .back-btn:hover { background:rgba(255,255,255,0.25); }
+
+  .chat-avatar {
+    width:44px; height:44px; background:var(--sage); border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    flex-shrink:0; animation:glowPulse 3s infinite;
+  }
+
+  .chat-header-info { flex:1; min-width:0; }
+
+  .chat-header-name { font-family:'Playfair Display',serif; color:white; font-size:17px; font-weight:600; }
+
+  .chat-header-status { font-size:12px; color:var(--sage-light); display:flex; align-items:center; gap:5px; }
+
+  .status-dot { width:7px; height:7px; background:#7dcc90; border-radius:50%; animation:pulse 2s infinite; }
+
+  .diag-btn {
+    background:rgba(255,255,255,0.18); border:1px solid rgba(255,255,255,0.35);
+    color:white; padding:8px 14px; border-radius:20px; font-family:'DM Sans',sans-serif;
+    font-size:12px; font-weight:500; cursor:pointer; transition:all 0.2s;
+    white-space:nowrap; flex-shrink:0;
+  }
+  .diag-btn:hover { background:rgba(255,255,255,0.28); }
+
+  .messages {
+    flex:1; overflow-y:auto; padding:28px 10%;
+    display:flex; flex-direction:column; gap:16px; scroll-behavior:smooth;
+  }
+
+  .msg { max-width: 62%; animation:msgIn 0.3s ease; }
+  .msg-user { align-self:flex-end; }
+  .msg-bot  { align-self:flex-start; }
+
+  .msg-bubble { padding:14px 18px; border-radius:18px; font-size:14.5px; line-height:1.6; }
+  .msg-user .msg-bubble { background:var(--sage-dark); color:white; border-bottom-right-radius:4px; }
+  .msg-bot  .msg-bubble { background:white; color:var(--text); border-bottom-left-radius:4px; box-shadow:0 2px 12px var(--shadow); }
+
+  .msg-time { font-size:11px; color:var(--text-muted); margin-top:5px; text-align:right; }
+  .msg-bot .msg-time { text-align:left; }
+
+  .typing-indicator {
+    display:none; align-self:flex-start; background:white;
+    border-radius:18px; border-bottom-left-radius:4px;
+    padding:14px 20px; box-shadow:0 2px 12px var(--shadow);
+  }
+  .typing-indicator span {
+    display:inline-block; width:8px; height:8px; background:var(--sage);
+    border-radius:50%; margin:0 2px; animation:bounce 1.2s infinite;
+  }
+  .typing-indicator span:nth-child(2){animation-delay:0.2s;}
+  .typing-indicator span:nth-child(3){animation-delay:0.4s;}
+
+  .chat-input-area {
+    padding:16px 10%; background:white;
+    border-top:1px solid rgba(122,158,135,0.2);
+    display:flex; gap:12px; align-items:flex-end;
+  }
+
+  #user-input {
+    flex:1; border:1.5px solid rgba(122,158,135,0.3); border-radius:24px;
+    padding:12px 20px; font-family:'DM Sans',sans-serif; font-size:14px;
+    resize:none; max-height:120px; background:var(--cream); color:var(--text);
+    outline:none; transition:border-color 0.2s; line-height:1.5;
+  }
+  #user-input:focus { border-color:var(--sage); }
+  #user-input::placeholder { color:var(--text-muted); }
+
+  .send-btn {
+    width:48px; height:48px; background:var(--sage-dark); border:none;
+    border-radius:50%; color:white; font-size:20px; cursor:pointer;
+    display:flex; align-items:center; justify-content:center;
+    transition:all 0.2s; flex-shrink:0;
+  }
+  .send-btn:hover { background:var(--sage); transform:scale(1.05); }
+
+  .disclaimer {
+    text-align:center; font-size:11px; color:var(--text-muted);
+    padding:8px 20px; background:white;
+    border-top:1px solid rgba(122,158,135,0.1);
+  }
+
+  /* ── MODAL ── */
+  #diag-modal {
+    display:none; position:fixed; inset:0; z-index:999;
+    background:rgba(44,58,50,0.55); backdrop-filter:blur(4px);
+    align-items:center; justify-content:center; padding:20px;
+  }
+
+  .diag-card {
+    background:var(--cream); border-radius:24px; max-width:480px; width:100%;
+    max-height:85vh; overflow-y:auto;
+    box-shadow:0 20px 60px rgba(44,58,50,0.35); animation:fadeUp 0.35s ease;
+  }
+
+  .diag-header {
+    background:var(--sage-dark); padding:20px 24px; border-radius:24px 24px 0 0;
+    display:flex; align-items:center; justify-content:space-between; position:sticky; top:0;
+  }
+
+  .diag-title { font-family:'Playfair Display',serif; color:white; font-size:17px; font-weight:600; }
+
+  .diag-close {
+    background:rgba(255,255,255,0.2); border:none; color:white;
+    width:32px; height:32px; border-radius:50%; cursor:pointer; font-size:14px;
+    display:flex; align-items:center; justify-content:center; transition:background 0.2s;
+  }
+  .diag-close:hover { background:rgba(255,255,255,0.35); }
+
+  .diag-body { padding:24px; }
+
+  .diag-loading { text-align:center; padding:32px 0; color:var(--text-muted); font-size:14px; }
+
+  .diag-spinner {
+    width:40px; height:40px; border:3px solid rgba(122,158,135,0.2);
+    border-top-color:var(--sage); border-radius:50%;
+    margin:0 auto 16px; animation:spin 0.9s linear infinite;
+  }
+
+  .diag-section { margin-bottom:20px; }
+
+  .diag-label {
+    font-size:10px; font-weight:600; letter-spacing:1.5px; text-transform:uppercase;
+    color:var(--text-muted); margin-bottom:8px;
+  }
+
+  .diag-pill { display:inline-block; padding:6px 14px; border-radius:20px; font-size:13px; font-weight:500; margin:3px; }
+  .pill-red    { background:#fde8e8; color:#c0392b; }
+  .pill-yellow { background:#fef9e7; color:#b7950b; }
+  .pill-green  { background:#eafaf1; color:#1e8449; }
+  .pill-blue   { background:#eaf4fd; color:#2471a3; }
+  .pill-purple { background:#f4ecf7; color:#76448a; }
+
+  .diag-text {
+    font-size:14px; line-height:1.7; color:var(--text);
+    background:white; border-radius:12px; padding:14px 16px;
+    border-left:3px solid var(--sage);
+  }
+
+  .diag-score { display:flex; align-items:center; gap:12px; background:white; border-radius:12px; padding:14px 16px; }
+
+  .score-bar-wrap { flex:1; height:8px; background:rgba(122,158,135,0.15); border-radius:4px; overflow:hidden; }
+
+  .score-bar { height:100%; border-radius:4px; background:linear-gradient(90deg,var(--sage),var(--sage-dark)); transition:width 1s ease; width:0%; }
+
+  .score-num { font-size:18px; font-weight:600; color:var(--sage-dark); min-width:36px; text-align:right; }
+
+  .diag-tip {
+    background:rgba(201,149,106,0.12); border:1px solid rgba(201,149,106,0.25);
+    border-radius:12px; padding:14px 16px; font-size:13px; line-height:1.6; color:var(--text);
+  }
+
+  .diag-insufficient { text-align:center; padding:24px 0; color:var(--text-muted); font-size:14px; line-height:1.7; }
+
+  /* ── PAGAMENTO ── */
+  #pay-modal {
+    display: none; position: fixed; inset: 0; z-index: 9998;
+    background: rgba(10,26,18,0.92); backdrop-filter: blur(8px);
+    align-items: center; justify-content: center; padding: 20px;
+  }
+
+  .pay-card {
+    background: var(--cream); border-radius: 28px;
+    max-width: 380px; width: 100%;
+    box-shadow: 0 30px 80px rgba(0,0,0,0.5);
+    overflow: hidden; animation: fadeUp 0.4s ease;
+  }
+
+  .pay-top {
+    background: var(--sage-dark);
+    padding: 32px 28px 24px;
+    text-align: center;
+  }
+
+  .pay-icon { font-size: 40px; margin-bottom: 12px; }
+
+  .pay-title {
+    font-family: 'Playfair Display', serif;
+    color: white; font-size: 22px; font-weight: 600;
+    margin-bottom: 8px;
+  }
+
+  .pay-sub { color: rgba(255,255,255,0.65); font-size: 14px; line-height: 1.5; }
+
+  .pay-plan { padding: 28px; }
+
+  .pay-badge {
+    display: inline-block;
+    background: var(--warm); color: white;
+    font-size: 10px; font-weight: 700;
+    letter-spacing: 1.5px; text-transform: uppercase;
+    padding: 4px 12px; border-radius: 20px;
+    margin-bottom: 16px;
+  }
+
+  .pay-price {
+    display: flex; align-items: flex-start;
+    justify-content: center; gap: 2px;
+    margin-bottom: 4px;
+  }
+
+  .pay-currency { font-size: 22px; font-weight: 600; color: var(--sage-dark); margin-top: 8px; }
+  .pay-value    { font-size: 64px; font-weight: 700; color: var(--sage-dark); line-height: 1; }
+  .pay-cents    { font-size: 28px; font-weight: 600; color: var(--sage-dark); margin-top: 8px; }
+
+  .pay-period { text-align: center; font-size: 13px; color: var(--text-muted); margin-bottom: 24px; }
+
+  .pay-features {
+    list-style: none; margin-bottom: 24px;
+  }
+
+  .pay-features li {
+    font-size: 14px; color: var(--text);
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(122,158,135,0.15);
+    line-height: 1.4;
+  }
+
+  .pay-features li:last-child { border-bottom: none; }
+
+  .pay-btn {
+    width: 100%;
+    background: linear-gradient(135deg, var(--warm) 0%, #b07a50 100%);
+    border: none; border-radius: 14px; padding: 18px;
+    font-family: 'Playfair Display', serif;
+    font-size: 17px; font-weight: 600; color: white;
+    cursor: pointer; transition: all 0.25s;
+    box-shadow: 0 4px 20px rgba(201,149,106,0.45);
+    margin-bottom: 12px;
+  }
+
+  .pay-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(201,149,106,0.55); }
+
+  .pay-secure { text-align: center; font-size: 12px; color: var(--text-muted); }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp   { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+  @keyframes msgIn    { from{opacity:0;transform:translateY(10px) scale(0.97)} to{opacity:1;transform:translateY(0) scale(1)} }
+  @keyframes bounce   { 0%,60%,100%{transform:translateY(0)} 30%{transform:translateY(-6px)} }
+  @keyframes pulse    { 0%,100%{opacity:1} 50%{opacity:0.4} }
+  @keyframes spin     { to{transform:rotate(360deg)} }
+  @keyframes diagBtnIn {
+    from { opacity:0; transform:scale(0.7); }
+    to   { opacity:1; transform:scale(1); }
+  }
+  @keyframes glowPulse{ 0%,100%{box-shadow:0 4px 20px rgba(78,114,96,0.45)} 50%{box-shadow:0 4px 32px rgba(78,114,96,0.75)} }
+  @keyframes shake { 0%,100%{transform:translateX(0)} 20%{transform:translateX(-8px)} 40%{transform:translateX(8px)} 60%{transform:translateX(-5px)} 80%{transform:translateX(5px)} }
+
+  @media(max-width:768px){
+    .hero{grid-template-columns:1fr;}
+    .hero-right{padding:40px 28px;}
+    .hero-left{padding:48px 28px;min-height:auto;}
+    .feature-card{padding:18px;}
+  }
+</style>
+</head>
+<body>
+
+<!-- SVG reutilizável -->
+<svg style="display:none">
+  <symbol id="doc" viewBox="0 0 48 48">
+    <ellipse cx="24" cy="38" rx="13" ry="8" fill="white" opacity="0.95"/>
+    <path d="M20 36 Q22 33 24 36 Q26 33 28 36" stroke="#4e7260" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+    <circle cx="24" cy="37" r="1.5" fill="#4e7260"/>
+    <rect x="21" y="27" width="6" height="5" rx="3" fill="#f5c5a3"/>
+    <ellipse cx="24" cy="22" rx="8" ry="9" fill="#f5c5a3"/>
+    <ellipse cx="24" cy="14.5" rx="8" ry="5" fill="#5c3d2e"/>
+    <ellipse cx="16.5" cy="21" rx="2.5" ry="5" fill="#5c3d2e"/>
+    <ellipse cx="31.5" cy="21" rx="2.5" ry="5" fill="#5c3d2e"/>
+    <ellipse cx="21" cy="22" rx="1.2" ry="1.4" fill="#2c1a0e"/>
+    <ellipse cx="27" cy="22" rx="1.2" ry="1.4" fill="#2c1a0e"/>
+    <path d="M21 26 Q24 28.5 27 26" stroke="#c97a6a" stroke-width="1.2" stroke-linecap="round" fill="none"/>
+    <circle cx="34" cy="32" r="4.5" fill="#c9956a"/>
+    <rect x="32.5" y="29.5" width="3" height="5" rx="0.5" fill="white"/>
+    <rect x="31" y="31" width="6" height="2" rx="0.5" fill="white"/>
+  </symbol>
+</svg>
+
+<!-- LOGIN -->
+<div id="login-screen">
+  <div class="login-bg"></div>
+  <div class="particles" id="particles"></div>
+
+  <div class="login-card">
+    <div class="login-brand">
+      <div class="login-app-name">Meu Psicólogo</div>
+    </div>
+
+    <div class="login-form">
+      <div class="login-field">
+        <label>Seu nome</label>
+        <input type="text" id="login-user" placeholder="Digite seu nome"
+          autocomplete="name"
+          onkeydown="if(event.key==='Enter')doLogin()"/>
+      </div>
+      <div class="login-error" id="login-error">Por favor, digite seu nome.</div>
+      <button class="login-btn" onclick="doLogin()">Teste grátis →</button>
+      <div class="login-hint">Experimente gratuitamente • Sem cartão necessário</div>
+    </div>
+  </div>
+</div>
+
+<!-- LANDING -->
+<div id="landing">
+  <div class="hero">
+    <div class="hero-left">
+      <div class="logo">
+        <div class="doctor-logo">
+          <svg width="40" height="40"><use href="#doc"/></svg>
+        </div>
+      </div>
+      <span class="hero-tag">Confidencial &amp; Seguro</span>
+
+      <h1 class="hero-emblem">Confidencial<br><em>&amp; Seguro</em></h1>
+
+      <p class="hero-sub">Aqui você pode falar sobre qualquer coisa com total liberdade. Sem vergonha, sem medo. A Vitória está aqui para ouvir e ajudar, sempre.</p>
+      <div class="hero-cta">
+        <button class="btn-primary" onclick="startChat()">Fazer avaliação →</button>
+      </div>
+    </div>
+
+    <div class="hero-right">
+      <p class="features-label">Por que nos escolher</p>
+      <div class="feature-card">
+        <div class="feature-icon fi-green">🔒</div>
+        <div class="feature-info">
+          <h4>100% Privado e Sigiloso</h4>
+          <p>Suas conversas são completamente confidenciais. Ninguém vai saber o que você compartilha aqui.</p>
+        </div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon fi-warm">💛</div>
+        <div class="feature-info">
+          <h4>Sem Julgamentos</h4>
+          <p>Pode falar sobre qualquer coisa — relacionamentos, trabalho, medos, traumas. Estamos aqui para ouvir.</p>
+        </div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon fi-blue">🕐</div>
+        <div class="feature-info">
+          <h4>Disponível 24 horas</h4>
+          <p>Às 3 da manhã ou no intervalo do trabalho — a Vitória está disponível quando você precisar.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CHAT -->
+<div id="chat-screen">
+  <div class="chat-header">
+    <button class="back-btn" onclick="goBack()">←</button>
+    <div class="chat-avatar">
+      <svg width="32" height="32"><use href="#doc"/></svg>
+    </div>
+    <div class="chat-header-info">
+      <div class="chat-header-name">Vitória</div>
+      <div class="chat-header-status"><div class="status-dot"></div>Online agora</div>
+      <div id="msg-counter" style="font-size:11px;color:var(--sage-light);margin-top:2px;"></div>
+    </div>
+    <button class="diag-btn" onclick="generateDiagnosis()" id="diag-btn" style="display:none">🔍 Diagnóstico</button>
+  </div>
+
+  <div class="messages" id="messages">
+    <div class="msg msg-bot">
+      <div class="msg-bubble">
+        Olá! Que bom que você está aqui. ✨<br><br>
+        Sou a Vitória. Este é um espaço seguro e completamente confidencial. Você pode me contar o que quiser — não há julgamentos aqui.<br><br>
+        Como você está se sentindo hoje?
+      </div>
+      <div class="msg-time">agora</div>
+    </div>
+  </div>
+
+  <div class="typing-indicator" id="typing">
+    <span></span><span></span><span></span>
+  </div>
+
+  <div class="chat-input-area">
+    <textarea id="user-input" placeholder="Escreva o que está sentindo..." rows="1"
+      oninput="autoResize(this)"
+      onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendMessage();}"></textarea>
+    <button class="send-btn" onclick="sendMessage()">➤</button>
+  </div>
+  <div class="disclaimer">Suas conversas são privadas e seguras • Não substitui tratamento médico profissional</div>
+</div>
+
+<!-- MODAL DIAGNÓSTICO -->
+<div id="diag-modal">
+  <div class="diag-card">
+    <div class="diag-header">
+      <span class="diag-title">📋 Análise Psicológica</span>
+      <button onclick="closeDiag()" class="diag-close">✕</button>
+    </div>
+    <div id="diag-content" class="diag-body">
+      <div class="diag-loading">
+        <div class="diag-spinner"></div>
+        <p>Vitória está analisando sua conversa...</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL PAGAMENTO -->
+<div id="pay-modal" style="display:none; position:fixed; inset:0; z-index:9998; background:rgba(10,26,18,0.92); backdrop-filter:blur(8px); align-items:center; justify-content:center; padding:20px;">
+  <div class="pay-card">
+    <div class="pay-top">
+      <div class="pay-icon">💎</div>
+      <h2 class="pay-title">Suas mensagens acabaram</h2>
+      <p class="pay-sub">Continue sua jornada com a Vitória sem interrupções</p>
+    </div>
+
+    <div class="pay-plan">
+      <div class="pay-badge">MAIS POPULAR</div>
+      <div class="pay-price">
+        <span class="pay-currency">R$</span>
+        <span class="pay-value">9</span>
+        <span class="pay-cents">,90</span>
+      </div>
+      <div class="pay-period">por mês · cancele quando quiser</div>
+
+      <ul class="pay-features">
+        <li>✅ Mensagens ilimitadas com a Vitória</li>
+        <li>✅ Diagnósticos psicológicos completos</li>
+        <li>✅ Atendimento 24 horas por dia</li>
+        <li>✅ 100% privado e sigiloso</li>
+      </ul>
+
+      <button class="pay-btn" onclick="irParaPagamento()">
+        Assinar agora →
+      </button>
+      <p class="pay-secure">🔒 Pagamento seguro via Mercado Pago</p>
+    </div>
+  </div>
+</div>
+
+
+<script>
+// ── CONFIGURAÇÕES (edite aqui) ──
+var API_KEY = ''; // Chave protegida no servidor Vercel
+var LIMITE_MENSAGENS = 20;
+
+// ── CONTROLE DE USUÁRIOS (localStorage) ──
+var currentUser = null;
+
+function getUserData(nome) {
+  var key = 'mp_user_' + nome.toLowerCase().replace(/\s/g,'_');
+  try {
+    var data = localStorage.getItem(key);
+    if (data) return JSON.parse(data);
+  } catch(e){}
+  return { nome: nome, mensagens: 0, bloqueado: false, criado: new Date().toISOString() };
+}
+
+function saveUserData(data) {
+  var key = 'mp_user_' + data.nome.toLowerCase().replace(/\s/g,'_');
+  try { localStorage.setItem(key, JSON.stringify(data)); } catch(e){}
+}
+
+function getMensagensRestantes() {
+  if (!currentUser) return 0;
+  return Math.max(0, LIMITE_MENSAGENS - currentUser.mensagens);
+}
+
+function atualizarContador() {
+  var restantes = getMensagensRestantes();
+  var el = document.getElementById('msg-counter');
+  if (el) {
+    el.textContent = restantes + ' msg restantes';
+    el.style.color = restantes <= 5 ? '#e87070' : 'var(--sage-light)';
+  }
+}
+
+// PARTÍCULAS
+(function(){
+  var container = document.getElementById('particles');
+  for (var i = 0; i < 40; i++) {
+    var p = document.createElement('div');
+    p.className = 'particle';
+    var size = Math.random() * 4 + 1;
+    var left = Math.random() * 100;
+    var delay = Math.random() * 12;
+    var duration = Math.random() * 10 + 8;
+    p.style.cssText = 'width:'+size+'px;height:'+size+'px;left:'+left+'%;bottom:-10px;' +
+      'animation-delay:'+delay+'s;animation-duration:'+duration+'s;' +
+      'opacity:' + (Math.random() * 0.6 + 0.2) + ';';
+    container.appendChild(p);
+  }
+})();
+
+// LOGIN
+function doLogin() {
+  var user = document.getElementById('login-user').value.trim();
+  var err  = document.getElementById('login-error');
+
+  if (user === '') {
+    err.textContent = 'Por favor, digite seu nome.';
+    err.style.display = 'block';
+    return;
+  }
+
+  err.style.display = 'none';
+  currentUser = getUserData(user);
+
+  if (currentUser.bloqueado || currentUser.mensagens >= LIMITE_MENSAGENS) {
+    err.textContent = '⚠️ Seu teste gratuito acabou. Assine por R$ 9,90/mês para continuar.';
+    err.style.display = 'block';
+    setTimeout(function(){ mostrarPagamento(); }, 1500);
+    return;
+  }
+
+  var screen = document.getElementById('login-screen');
+  screen.style.transition = 'opacity 0.6s ease';
+  screen.style.opacity = '0';
+  setTimeout(function(){
+    screen.style.display = 'none';
+    atualizarContador();
+  }, 600);
+}
+
+// NAVEGAÇÃO
+function startChat() {
+  document.getElementById('landing').style.display = 'none';
+  var c = document.getElementById('chat-screen');
+  c.style.display = 'flex';
+  c.style.flexDirection = 'column';
+}
+
+function goBack() {
+  document.getElementById('chat-screen').style.display = 'none';
+  document.getElementById('landing').style.display = 'flex';
+}
+
+// UTILITÁRIOS
+function autoResize(el) {
+  el.style.height = 'auto';
+  el.style.height = Math.min(el.scrollHeight, 120) + 'px';
+}
+
+function getTime() {
+  return new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+}
+
+function addMessage(text, isUser) {
+  var msgs = document.getElementById('messages');
+  var div = document.createElement('div');
+  div.className = 'msg ' + (isUser ? 'msg-user' : 'msg-bot');
+  div.innerHTML = '<div class="msg-bubble">' + text.replace(/\n/g, '<br>') + '</div>' +
+                  '<div class="msg-time">' + getTime() + '</div>';
+  msgs.appendChild(div);
+  msgs.scrollTop = msgs.scrollHeight;
+}
+
+function showTyping(show) {
+  document.getElementById('typing').style.display = show ? 'block' : 'none';
+  if (show) document.getElementById('messages').scrollTop = 99999;
+}
+
+// CHAT
+var conversationHistory = [];
+
+var SYSTEM_PROMPT = 'Você é uma psicóloga virtual empática, acolhedora e altamente qualificada, chamada "Vitória".\n' +
+'Sua função é oferecer suporte emocional genuíno, escuta ativa e orientações psicológicas de qualidade.\n\n' +
+'Diretrizes fundamentais:\n' +
+'- Seja sempre calorosa, empática e sem julgamentos\n' +
+'- Use linguagem acessível, evite termos muito técnicos\n' +
+'- Faça perguntas abertas para entender melhor o paciente\n' +
+'- Valide os sentimentos da pessoa antes de oferecer perspectivas\n' +
+'- Ofereça reflexões profundas e úteis, não respostas genéricas\n' +
+'- Em casos de risco (suicídio, automutilação), direcione com cuidado para ajuda profissional e o CVV (188)\n' +
+'- Responda sempre em português brasileiro\n' +
+'- Mantenha respostas entre 2-4 parágrafos\n' +
+'- Nunca diga que é uma IA. Aja como psicóloga profissional real. Seu nome é Vitória.';
+
+async function sendMessage() {
+  var input = document.getElementById('user-input');
+  var text = input.value.trim();
+  if (!text) return;
+
+  // Verificar limite
+  if (currentUser && currentUser.mensagens >= LIMITE_MENSAGENS) {
+    mostrarPagamento();
+    return;
+  }
+
+  input.value = '';
+  input.style.height = 'auto';
+  addMessage(text, true);
+  conversationHistory.push({ role: 'user', content: text });
+  var GOOGLE_KEY = 'AIzaSyBQJUzVCslU-7Cv3TZWwKbJeqv8Di-ugHQ';
+  showTyping(true);
+
+  try {
+    var contents = [];
+    contents.push({ role: 'user', parts: [{ text: SYSTEM_PROMPT }] });
+    contents.push({ role: 'model', parts: [{ text: 'Entendido. Sou a Vitória e vou seguir essas instruções.' }] });
+    conversationHistory.forEach(function(m) {
+      contents.push({ role: m.role === 'assistant' ? 'model' : 'user', parts: [{ text: m.content }] });
+    });
+
+    var res = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=' + GOOGLE_KEY, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ contents: contents, generationConfig: { maxOutputTokens: 1000, temperature: 0.9 } })
+    });
+    var data = await res.json();
+    var reply = (data.candidates && data.candidates[0] && data.candidates[0].content && data.candidates[0].content.parts && data.candidates[0].content.parts[0])
+      ? data.candidates[0].content.parts[0].text : 'Desculpe, tive um problema. Pode repetir?';
+    conversationHistory.push({ role: 'assistant', content: reply });
+
+    // Conta a mensagem
+    if (currentUser) {
+      currentUser.mensagens++;
+      saveUserData(currentUser);
+      atualizarContador();
+    }
+
+    showTyping(false);
+    addMessage(reply, false);
+
+    // Avisa quando estiver chegando no limite
+    if (currentUser && currentUser.mensagens === LIMITE_MENSAGENS - 3) {
+      setTimeout(function(){
+        addMessage('💛 Você tem apenas ' + getMensagensRestantes() + ' mensagens restantes no seu plano gratuito. Assine por R$ 9,90/mês para continuar sem limites!', false);
+      }, 1000);
+    }
+
+    // Quando acabar, mostra tela de pagamento
+    if (currentUser && currentUser.mensagens >= LIMITE_MENSAGENS) {
+      setTimeout(function(){ mostrarPagamento(); }, 1500);
+    }
+
+    // Mostra botão diagnóstico após 4 mensagens
+    var userCount = conversationHistory.filter(function(m){ return m.role === 'user'; }).length;
+    if (userCount >= 4) {
+      var btn = document.getElementById('diag-btn');
+      if (btn && btn.style.display === 'none') {
+        btn.style.display = 'block';
+        btn.style.animation = 'diagBtnIn 0.6s ease both';
+      }
+    }
+  } catch(err) {
+    showTyping(false);
+    addMessage('Desculpe, ocorreu um erro de conexão. Por favor, tente novamente.', false);
+  }
+}
+
+// PAGAMENTO
+var LINK_PAGAMENTO = 'https://www.mercadopago.com.br/subscriptions/checkout?preapproval_plan_id=0a4f9734d3c042ae8cde023a660a72ec';
+
+function mostrarPagamento() {
+  document.getElementById('pay-modal').style.display = 'flex';
+}
+
+function irParaPagamento() {
+  window.open(LINK_PAGAMENTO, '_blank');
+}
+
+// DIAGNÓSTICO
+function closeDiag() {
+  document.getElementById('diag-modal').style.display = 'none';
+}
+
+async function generateDiagnosis() {
+  var modal = document.getElementById('diag-modal');
+  var content = document.getElementById('diag-content');
+
+  var userMsgs = conversationHistory.filter(function(m){ return m.role === 'user'; });
+
+  content.innerHTML = '<div class="diag-loading"><div class="diag-spinner"></div><p>Vitória está analisando sua conversa...</p></div>';
+  modal.style.display = 'flex';
+
+  var transcript = conversationHistory.map(function(m){
+    return (m.role === 'user' ? 'Paciente' : 'Vitória') + ': ' + m.content;
+  }).join('\n');
+
+  var diagPrompt = 'Você é psicóloga clínica chamada Vitória. Analise a conversa e retorne SOMENTE JSON válido sem markdown.\n\nConversa:\n' + transcript + '\n\nJSON obrigatório:\n{"estado_emocional":"frase curta do estado","indicadores":["sinal1","sinal2","sinal3"],"areas_afetadas":["area1","area2"],"bem_estar_score":65,"resumo":"2-3 frases empáticas sobre o que está acontecendo com a pessoa","recomendacoes":"2-3 sugestões práticas e acolhedoras","nivel_atencao":"baixo"}';
+
+  try {
+    var GOOGLE_KEY = 'AIzaSyBQJUzVCslU-7Cv3TZWwKbJeqv8Di-ugHQ';
+    var res = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=' + GOOGLE_KEY, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ contents: [{ role: 'user', parts: [{ text: diagPrompt }] }], generationConfig: { maxOutputTokens: 1000 } })
+    });
+    var data = await res.json();
+    var raw = (data.candidates && data.candidates[0] && data.candidates[0].content && data.candidates[0].content.parts && data.candidates[0].content.parts[0]) ? data.candidates[0].content.parts[0].text : '';
+    raw = raw.replace(/```json|```/g, '').trim();
+    var d = JSON.parse(raw);
+
+    var nivelColor = d.nivel_atencao === 'alto' ? 'pill-red' : d.nivel_atencao === 'moderado' ? 'pill-yellow' : 'pill-green';
+    var nivelLabel = d.nivel_atencao === 'alto' ? '⚠️ Atenção elevada' : d.nivel_atencao === 'moderado' ? '⚡ Atenção moderada' : '✅ Atenção baixa';
+    var score = Math.max(0, Math.min(100, Number(d.bem_estar_score) || 50));
+    var colors = ['pill-blue','pill-purple','pill-yellow','pill-red','pill-green'];
+
+    var indHTML = (d.indicadores || []).map(function(item, i){
+      return '<span class="diag-pill ' + colors[i % colors.length] + '">' + item + '</span>';
+    }).join('');
+
+    var areasHTML = (d.areas_afetadas || []).map(function(a){
+      return '<span class="diag-pill pill-purple">' + a + '</span>';
+    }).join('');
+
+    content.innerHTML =
+      '<div class="diag-section">' +
+        '<div class="diag-label">Estado emocional</div>' +
+        '<div class="diag-text">😔 ' + d.estado_emocional + ' &nbsp;<span class="diag-pill ' + nivelColor + '">' + nivelLabel + '</span></div>' +
+      '</div>' +
+      '<div class="diag-section">' +
+        '<div class="diag-label">Índice de bem-estar</div>' +
+        '<div class="diag-score">' +
+          '<div class="score-bar-wrap"><div class="score-bar" id="score-bar"></div></div>' +
+          '<div class="score-num">' + score + '<span style="font-size:11px;color:var(--text-muted)">/100</span></div>' +
+        '</div>' +
+      '</div>' +
+      '<div class="diag-section">' +
+        '<div class="diag-label">Sinais observados</div>' +
+        '<div>' + indHTML + '</div>' +
+      '</div>' +
+      '<div class="diag-section">' +
+        '<div class="diag-label">Áreas afetadas</div>' +
+        '<div>' + areasHTML + '</div>' +
+      '</div>' +
+      '<div class="diag-section">' +
+        '<div class="diag-label">O que está acontecendo</div>' +
+        '<div class="diag-text">' + d.resumo + '</div>' +
+      '</div>' +
+      '<div class="diag-section">' +
+        '<div class="diag-label">Recomendações da Vitória</div>' +
+        '<div class="diag-tip">💛 ' + d.recomendacoes + '</div>' +
+      '</div>' +
+      '<p style="font-size:11px;color:var(--text-muted);text-align:center;margin-top:12px;">Esta análise é orientativa e não substitui avaliação profissional. Em caso de crise, ligue <strong>188</strong> (CVV).</p>';
+
+    setTimeout(function(){
+      var bar = document.getElementById('score-bar');
+      if (bar) bar.style.width = score + '%';
+    }, 150);
+
+  } catch(e) {
+    content.innerHTML = '<div class="diag-insufficient">Não foi possível gerar a análise. Tente novamente após mais alguns minutos de conversa.</div>';
+  }
+}
+</script>
+</body>
+</html>
